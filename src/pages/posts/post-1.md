@@ -1,4 +1,5 @@
 ---
+layout: ../../layouts/MarkdownPostLayout.astro
 title: '毕业设计项目总结'
 pubDate: 2024-02-16
 description: '毕业设计'
@@ -8,8 +9,6 @@ image:
     alt: 'The Astro logo on a dark background with a pink glow.'
 tags: ["study"]
 ---
-# 毕业设计项目总结
-
 ## 第一部分
 
 ### 前端工程化配置
@@ -124,40 +123,40 @@ openapi --input http://localhost:8101/api/v2/api-docs --output ./generated --cli
 
 2. 抽离权限判断方法。
 
-```ts
-import accessEnum from "@/access/accessEnum";
-
-/**
- * 判断当前用户是否具有某个权限
- * @param loginUser 当前登录用户
- * @param needAccess 需要有的权限
- * @return boolean 有无权限
- */
-const checkAccess = (loginUser: any, needAccess = accessEnum.NOT_LOGIN) => {
-  //获取当前登录用户具有的权限
-  const loginUserAccess = loginUser?.userRole ?? accessEnum.NOT_LOGIN;
-  //如果当前用户登录需要的权限为未登录
-  if (needAccess === accessEnum.NOT_LOGIN) {
-    return true;
-  }
-  //如果当前用户登录需要的权限为用户
-  if (needAccess === accessEnum.USER) {
-    //如果当前用户的权限为未登录
-    if (loginUserAccess === accessEnum.NOT_LOGIN) {
-      return false;
-    }
-  }
-  //如果当前用户登录需要的权限为管理员
-  if (needAccess === accessEnum.ADMIN) {
-    //如果当前用户的权限不为管理员
-    if (loginUserAccess !== accessEnum.ADMIN) {
-      return false;
-    }
-  }
-  return true;
-};
-export default checkAccess;
-```
+   ```ts
+   import accessEnum from "@/access/accessEnum";
+   
+   /**
+    * 判断当前用户是否具有某个权限
+    * @param loginUser 当前登录用户
+    * @param needAccess 需要有的权限
+    * @return boolean 有无权限
+    */
+   const checkAccess = (loginUser: any, needAccess = accessEnum.NOT_LOGIN) => {
+     //获取当前登录用户具有的权限
+     const loginUserAccess = loginUser?.userRole ?? accessEnum.NOT_LOGIN;
+     //如果当前用户登录需要的权限为未登录
+     if (needAccess === accessEnum.NOT_LOGIN) {
+       return true;
+     }
+     //如果当前用户登录需要的权限为用户
+     if (needAccess === accessEnum.USER) {
+       //如果当前用户的权限为未登录
+       if (loginUserAccess === accessEnum.NOT_LOGIN) {
+         return false;
+       }
+     }
+     //如果当前用户登录需要的权限为管理员
+     if (needAccess === accessEnum.ADMIN) {
+       //如果当前用户的权限不为管理员
+       if (loginUserAccess !== accessEnum.ADMIN) {
+         return false;
+       }
+     }
+     return true;
+   };
+   export default checkAccess;
+   ```
 
 3. 修改菜单，实现动态根据权限过滤菜单：
 
@@ -574,18 +573,18 @@ java安全管理器（Security Manager）是java提供的保护JVM，java安全�
 引入依赖
 
 ```xml
-        <!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java -->
-        <dependency>
-            <groupId>com.github.docker-java</groupId>
-            <artifactId>docker-java</artifactId>
-            <version>3.3.0</version>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java-transport-httpclient5 -->
-        <dependency>
-            <groupId>com.github.docker-java</groupId>
-            <artifactId>docker-java-transport-httpclient5</artifactId>
-            <version>3.3.0</version>
-        </dependency>
+<!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java -->
+<dependency>
+   <groupId>com.github.docker-java</groupId>
+   <artifactId>docker-java</artifactId>
+   <version>3.3.0</version>
+</dependency>
+<!-- https://mvnrepository.com/artifact/com.github.docker-java/docker-java-transport-httpclient5 -->
+<dependency>
+   <groupId>com.github.docker-java</groupId>
+   <artifactId>docker-java-transport-httpclient5</artifactId>
+   <version>3.3.0</version>
+</dependency>
 ```
 
 DockerClientConfig:用于定义初始化DockerClicent的配置（类比MySQL的连接，线程数配置）
@@ -683,36 +682,36 @@ docker exec [容器名] java -cp /app Main 1 3
 定义一个周期，定期地获取程序内存
 
 ```java
-			final long[] maxMemory = {0L};
-            StatsCmd statsCmd = dockerClient.statsCmd(containerId);
-            ResultCallback<Statistics> statisticsResultCallback = statsCmd.exec(new ResultCallback<Statistics>() {
-                @Override
-                public void onNext(Statistics statistics) {
-                    System.out.println("内存占用：" + statistics.getMemoryStats().getUsage());
-                    maxMemory[0] =Math.max(statistics.getMemoryStats().getUsage(), maxMemory[0]);
-                }
-
-                @Override
-                public void onStart(Closeable closeable) {
-
-                }
-
-                @Override
-                public void onError(Throwable throwable) {
-
-                }
-
-                @Override
-                public void onComplete() {
-
-                }
-
-                @Override
-                public void close() throws IOException {
-
-                }
-            });
-            statsCmd.exec(statisticsResultCallback);
+   final long[] maxMemory = {0L};
+   StatsCmd statsCmd = dockerClient.statsCmd(containerId);
+   ResultCallback<Statistics> statisticsResultCallback = statsCmd.exec(new ResultCallback<Statistics>() {
+       @Override
+       public void onNext(Statistics statistics) {
+           System.out.println("内存占用：" + statistics.getMemoryStats().getUsage());
+           maxMemory[0] =Math.max(statistics.getMemoryStats().getUsage(), maxMemory[0]);
+       }
+   
+       @Override
+       public void onStart(Closeable closeable) {
+   
+       }
+   
+       @Override
+       public void onError(Throwable throwable) {
+   
+       }
+   
+       @Override
+       public void onComplete() {
+   
+       }
+   
+       @Override
+       public void close() throws IOException {
+   
+       }
+   });
+   statsCmd.exec(statisticsResultCallback);
 ```
 
 ## 第八部分

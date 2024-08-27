@@ -12,5 +12,4 @@ const blog = defineCollection({
 		heroImage: z.string().optional(),
 	}),
 });
-
 export const collections = { blog };
