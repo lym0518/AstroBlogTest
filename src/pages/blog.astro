@@ -1,10 +1,13 @@
 ---
 import "../styles/global.css";
+import BlogPost from '../components/BlogPost.astro';
+const allPosts = await Astro.glob('./posts/*.md');
 import BaseLayout from '../layouts/BaseLayout.astro';
 const pageTitle = "文章";
 ---
 <BaseLayout pageTitle={pageTitle}>
     <ul>
-        <li><a href="/posts/post-1/">毕业设计项目总结</a></li>
+        {allPosts.map((post) =>
+                <BlogPost url={post.url} title={post.frontmatter.title} pubDate={post.frontmatter.pubDate}/>)}
     </ul>
 </BaseLayout>
